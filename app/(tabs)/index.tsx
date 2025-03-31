@@ -18,9 +18,9 @@ export default function Index() {
   const router = useRouter();
 
   const {
-    data: movie,
-    loading: movieLoading,
-    error: movieError,
+    data: movies,
+    loading: moviesLoading,
+    error: moviesError,
   } = useFetch(() => fetchMovies({ query: "" }));
 
   const onSearch = () => {
@@ -40,14 +40,14 @@ export default function Index() {
         }}
       >
         <Image source={icons.logo} className="w-12 h-10 mx-auto mt-20 mb-5" />
-        {movieLoading ? (
+        {moviesLoading ? (
           <ActivityIndicator
             size="large"
             color="#000ff"
             className="self-center mt-10"
           />
-        ) : movieError ? (
-          <Text>Error: {movieError.message}</Text>
+        ) : moviesError ? (
+          <Text>Error: {moviesError.message}</Text>
         ) : (
           <View className="flex-1 mt-5">
             <SearchBar onPress={onSearch} placeholder="Search For a movie" />
@@ -56,7 +56,7 @@ export default function Index() {
                 Latest Movie
               </Text>
               <FlatList
-                data={movie}
+                data={movies}
                 keyExtractor={(item) => item.id}
                 numColumns={3}
                 columnWrapperStyle={{
