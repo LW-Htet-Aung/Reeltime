@@ -14,6 +14,8 @@ import { fetchMovies } from "@/services/api";
 import useFetch from "@/hooks/useFetch";
 import { icons } from "@/constants/icons";
 import SearchBar from "@/components/SearchBar";
+import axios from "axios";
+import { axiosInstance } from "@/utils/axios";
 
 type Props = {};
 
@@ -30,21 +32,37 @@ const Search = (props: Props) => {
   const onChangeText = (text: string) => {
     setSearchQuery(text);
   };
+  const updateMetric = async (searchQuery: string, movie: any) => {
+    try {
+      await axiosInstance.post("api/metrics/search", {
+        searchTerm: searchQuery,
+        movie,
+      });
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  };
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      const func = async () => {
+      (async () => {
         if (searchQuery.trim()) {
           await loadMovies();
         } else {
           reset();
         }
-      };
-
-      func();
-    }, 500);
+      })();
+    }, 1000);
 
     return () => clearTimeout(timeOut);
   }, [searchQuery]);
+
+  useEffect(() => {
+    (async () => {
+      if (movies?.length > 0 && movies?.[0]) {
+        await updateMetric(searchQuery, movies[0]);
+      }
+    })();
+  }, [movies]);
 
   return (
     <View className="flex-1 bg-primary">
