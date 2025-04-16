@@ -16,7 +16,7 @@ const MovieCard = ({
         <Image
           source={{
             uri: poster_path
-              ? `https://image.tmdb.org/t/p/w500${poster_path}`
+              ? `${process.env.EXPO_PUBLIC_MOVIE_IMAGE_BASE_URL}${poster_path}`
               : `https://placehold.co/600x400/lalala/ffffff.png`,
           }}
           className="w-full rounded-lg h-52"
