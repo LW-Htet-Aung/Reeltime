@@ -13,7 +13,6 @@ const TrendingCard = ({
   movie: { movie_id, title, posterUrl },
   index,
 }: TrendingCardProps) => {
-  console.log(posterUrl, "url");
   return (
     <Link asChild href={`/movies/${movie_id}`}>
       <TouchableOpacity className="relative w-32 pl-5 ml-3">
